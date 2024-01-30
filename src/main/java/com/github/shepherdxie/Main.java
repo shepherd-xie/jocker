@@ -1,9 +1,9 @@
 package com.github.shepherdxie;
 
-import com.github.shepherdxie.jocker.CommandExecutor;
+import com.github.shepherdxie.jocker.executor.CommandExecutor;
 import com.github.shepherdxie.jocker.Docker;
 import com.github.shepherdxie.jocker.DockerConfig;
-import com.github.shepherdxie.jocker.HttpClientCommandExecutor;
+import com.github.shepherdxie.jocker.executor.HttpClientCommandExecutor;
 
 /**
  * @author Shepherd Xie
