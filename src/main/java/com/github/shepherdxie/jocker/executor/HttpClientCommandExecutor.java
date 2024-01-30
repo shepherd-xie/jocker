@@ -1,4 +1,6 @@
-package com.github.shepherdxie.jocker;
+package com.github.shepherdxie.jocker.executor;
+
+import com.github.shepherdxie.jocker.DockerCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +38,8 @@ public class HttpClientCommandExecutor implements CommandExecutor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return response.toString();
+        String responseString = response.toString();
+        System.out.println(responseString);
+        return responseString;
     }
 }
