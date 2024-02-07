@@ -1,2 +1,2 @@
 # jocker
-A java sdk for docker
+A java sdk for dockerClient

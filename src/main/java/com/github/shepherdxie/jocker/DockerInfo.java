@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Data
 public class DockerInfo {
-    @JsonProperty("ID")
+//    @JsonProperty("ID")
     private String id;
 
     @JsonProperty("Containers")

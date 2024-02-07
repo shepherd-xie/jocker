@@ -14,7 +14,7 @@ import java.net.ProtocolException;
  */
 public class HttpClientCommandExecutor implements CommandExecutor {
     @Override
-    public Object execute(DockerCommand dockerCommand) {
+    public String execute(DockerCommand dockerCommand) {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) dockerCommand.getHttpUrl().openConnection();
@@ -38,8 +38,6 @@ public class HttpClientCommandExecutor implements CommandExecutor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String responseString = response.toString();
-        System.out.println(responseString);
-        return responseString;
+        return response.toString();
     }
 }

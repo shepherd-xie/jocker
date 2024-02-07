@@ -13,7 +13,7 @@ public interface CommandExecutor {
 
     ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    Object execute(DockerCommand dockerCommand);
+    String execute(DockerCommand dockerCommand);
 
     default <T> T execute(DockerCommand dockerCommand, Class<T> clazz) {
         try {
