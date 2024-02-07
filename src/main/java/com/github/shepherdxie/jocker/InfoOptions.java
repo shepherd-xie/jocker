@@ -1,11 +1,12 @@
 package com.github.shepherdxie.jocker;
 
+import lombok.Data;
+
 /**
  * @author Shepherd Xie
  * @since 2024/1/30
  */
-public interface Docker {
-
-    DockerInfo info(InfoOptions infoOptions);
-
+@Data
+public class InfoOptions {
+    private String format;
 }

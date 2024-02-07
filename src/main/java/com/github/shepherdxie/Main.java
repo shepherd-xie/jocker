@@ -1,7 +1,7 @@
 package com.github.shepherdxie;
 
+import com.github.shepherdxie.jocker.executor.DockerClient;
 import com.github.shepherdxie.jocker.executor.CommandExecutor;
-import com.github.shepherdxie.jocker.Docker;
 import com.github.shepherdxie.jocker.DockerConfig;
 import com.github.shepherdxie.jocker.executor.HttpClientCommandExecutor;
 
@@ -15,8 +15,8 @@ public class Main {
         DockerConfig dockerConfig = DockerConfig.of(ip, 2375);
 
         CommandExecutor commandExecutor = new HttpClientCommandExecutor();
-        Docker docker = new Docker(commandExecutor, dockerConfig);
+        DockerClient dockerClient = new DockerClient(commandExecutor, dockerConfig);
 
-        System.out.println(docker.info());
+        System.out.println(dockerClient.info());
     }
 }
