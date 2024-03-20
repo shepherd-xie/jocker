@@ -26,7 +26,8 @@ public class DockerConfig {
 
     public URL getHttpUrl() {
         try {
-            return new URL("http://" + ip + ":" + port);
+            URL url = new URL("https://" + ip + ":" + port);
+            return url;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
