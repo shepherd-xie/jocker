@@ -6,7 +6,7 @@ import com.github.shepherdxie.jocker.DockerCommand;
  * @author Shepherd Xie
  * @since 2024/2/7
  */
-public class SSHCommandExecutor implements CommandExecutor {
+public class SSHDockerExecutor implements DockerExecutor {
 
     @Override
     public String execute(DockerCommand dockerCommand) {

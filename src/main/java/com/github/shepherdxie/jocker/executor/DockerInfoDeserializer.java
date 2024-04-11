@@ -5,9 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.github.shepherdxie.jocker.DockerInfo;
-import com.google.common.base.CaseFormat;
-import org.apache.commons.lang3.StringUtils;
+import com.github.shepherdxie.jocker.entity.DockerInfo;
 
 import java.io.IOException;
 

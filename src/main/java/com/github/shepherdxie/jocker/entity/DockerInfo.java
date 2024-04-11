@@ -1,4 +1,4 @@
-package com.github.shepherdxie.jocker;
+package com.github.shepherdxie.jocker.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Data
 public class DockerInfo {
-//    @JsonProperty("ID")
+    @JsonProperty("ID")
     private String id;
 
     @JsonProperty("Containers")

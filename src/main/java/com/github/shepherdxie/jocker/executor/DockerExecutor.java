@@ -9,7 +9,7 @@ import java.io.IOException;
  * @author Shepherd Xie
  * @since 2024/1/30
  */
-public interface CommandExecutor {
+public interface DockerExecutor {
 
     ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 

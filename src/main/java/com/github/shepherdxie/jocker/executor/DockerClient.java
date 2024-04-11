@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.shepherdxie.jocker.*;
+import com.github.shepherdxie.jocker.entity.DockerInfo;
+import com.github.shepherdxie.jocker.entity.InfoOptions;
 
 /**
  * @author Shepherd Xie
@@ -13,11 +15,11 @@ public class DockerClient implements Docker {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private final CommandExecutor commandExecutor;
+    private final DockerExecutor dockerExecutor;
     private final DockerConfig dockerConfig;
 
-    public DockerClient(CommandExecutor commandExecutor, DockerConfig dockerConfig) {
-        this.commandExecutor = commandExecutor;
+    public DockerClient(DockerExecutor dockerExecutor, DockerConfig dockerConfig) {
+        this.dockerExecutor = dockerExecutor;
         this.dockerConfig = dockerConfig;
     }
 
@@ -26,7 +28,7 @@ public class DockerClient implements Docker {
         dockerCommand.setDockerConfig(dockerConfig);
         dockerCommand.setCommand("info");
 
-        return commandExecutor.execute(dockerCommand, DockerInfo.class);
+        return dockerExecutor.execute(dockerCommand, DockerInfo.class);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class DockerClient implements Docker {
         dockerCommand.setDockerConfig(dockerConfig);
         dockerCommand.setCommand("info");
 
-        String jsonResult = commandExecutor.execute(dockerCommand);
+        String jsonResult = dockerExecutor.execute(dockerCommand);
         OBJECT_MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
         try {
             DockerInfo dockerInfo = OBJECT_MAPPER.readValue(jsonResult, DockerInfo.class);

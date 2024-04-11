@@ -12,7 +12,7 @@ import java.net.ProtocolException;
  * @author Shepherd Xie
  * @since 2024/1/30
  */
-public class HttpClientCommandExecutor implements CommandExecutor {
+public class HttpClientDockerExecutor implements DockerExecutor {
     @Override
     public String execute(DockerCommand dockerCommand) {
         HttpURLConnection connection = null;

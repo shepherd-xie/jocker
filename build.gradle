@@ -9,16 +9,36 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
-    implementation 'org.slf4j:slf4j-api:2.0.10'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'com.google.guava:guava:33.0.0-jre'
-    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+ext {
+    junitVersion = '5.9.1'
+    lombokVersion = '1.18.30'
+    jacksonVersion = '2.16.1'
+    slf4jVersion = '2.0.10'
+    commonsLangVersion = '3.12.0'
+    guavaVersion = '33.0.0-jre'
+    okhttpVersion = '4.12.0'
+}
 
-    testImplementation platform('org.junit:junit-bom:5.9.1')
+dependencies {
+    // Lombok
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+
+    // Logging
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+
+    // Utilities
+    implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
+    implementation "com.google.guava:guava:$guavaVersion"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+
+    // Test dependencies
+    testImplementation platform("org.junit:junit-bom:$junitVersion")
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 

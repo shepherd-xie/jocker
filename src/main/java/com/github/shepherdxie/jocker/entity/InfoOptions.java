@@ -1,4 +1,4 @@
-package com.github.shepherdxie.jocker;
+package com.github.shepherdxie.jocker.entity;
 
 import lombok.Data;
 

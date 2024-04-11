@@ -1,4 +1,4 @@
-package com.github.shepherdxie;
+package com.github.shepherdxie.utils;
 
 import javax.net.ssl.*;
 import java.io.FileInputStream;
