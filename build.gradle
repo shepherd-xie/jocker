@@ -34,8 +34,12 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
     implementation "com.google.guava:guava:$guavaVersion"
 
+    // https://mvnrepository.com/artifact/com.github.jnr/jnr-unixsocket
+    implementation 'com.github.jnr:jnr-unixsocket:0.38.22'
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+
+    implementation 'com.jcraft:jsch:0.1.55'
 
     // Test dependencies
     testImplementation platform("org.junit:junit-bom:$junitVersion")
