@@ -1,5 +1,6 @@
 package com.github.shepherdxie.jocker;
 
+import com.github.shepherdxie.utils.FileUtil;
 import lombok.Data;
 
 import java.net.MalformedURLException;
@@ -12,16 +13,14 @@ import java.net.URL;
  */
 @Data
 public class DockerConfig {
+    public static final DockerConfig INSTANCE = new DockerConfig();
+
     private String ip;
     private int port;
 
-    public DockerConfig(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-    }
-
-    public static DockerConfig of(String ip, int port) {
-        return new DockerConfig(ip, port);
+    public DockerConfig() {
+        this.ip = FileUtil.getSecurityConfig("docker.host");
+        this.port = Integer.parseInt(FileUtil.getSecurityConfig("docker.port"));
     }
 
     public URL getHttpUrl() {

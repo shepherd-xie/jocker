@@ -1,15 +1,16 @@
 package com.github.shepherdxie.jocker.executor;
 
+import com.github.shepherdxie.Configuration;
 import com.github.shepherdxie.jocker.DockerCommand;
-import com.jcraft.jsch.JSch;
+import com.github.shepherdxie.jocker.DockerConfig;
+import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * @author Shepherd Xie
@@ -22,43 +23,41 @@ public class SSHDockerExecutor implements DockerExecutor {
 
         return null;
     }
-    public static void main(String[] args) {
-        String sshHost = "remote-host"; // SSH 主机名或 IP 地址
-        String sshUser = "username";    // SSH 用户名
-        String sshPassword = "password"; // SSH 密码
 
-        String dockerSockPath = "/var/run/docker.sock"; // Docker 守护进程的 UNIX 套接字路径
 
-        try {
-            JSch jsch = new JSch();
-            Session session = jsch.getSession(sshUser, sshHost, 22);
-            session.setPassword(sshPassword);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
+    public static void main(String[] args) throws JSchException {
+        SSHSessionFactory sshSessionFactory = new SSHSessionFactory();
+        Session session = sshSessionFactory.withPrivateKey(
+                DockerConfig.INSTANCE.getIp(),
+                Configuration.get("docker.ssh.username"),
+                Integer.parseInt(Configuration.get("docker.ssh.port")),
+                Configuration.get("docker.ssh.privateKey")
+        );
+        session.connect();
+        // 在远程服务器上执行命令
+        String command = "curl --unix-socket /var/run/docker.sock http://localhost/_ping";
+        ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        channel.setCommand(command);
 
-            // 创建 SSH 隧道，将本地端口转发到远程主机的 Docker 守护进程的 UNIX 套接字
-            session.setPortForwardingL(9999, "localhost", 2375);
+        try (InputStream in = channel.getInputStream()) {
 
-            // 创建 OkHttp 客户端，并将其配置为使用本地转发的端口
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .socketFactory(new UnixDomainSocketFactory(new File("/var/run/docker.sock")))
-                    .build();
+            channel.connect();
 
-            Request request = new Request.Builder()
-                    .url("http://localhost:9999/_ping") // 使用本地转发的端口
-                    .build();
-
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                System.out.println("Docker daemon is running.");
-            } else {
-                System.out.println("Failed to ping Docker daemon.");
+            // 读取命令执行的输出
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            String line;
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
             }
-
-            // 关闭 SSH 会话
+            System.out.println(stringBuilder);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // 关闭连接
+            channel.disconnect();
             session.disconnect();
-        } catch (JSchException | IOException e) {
-            e.printStackTrace();
         }
     }
+
 }
