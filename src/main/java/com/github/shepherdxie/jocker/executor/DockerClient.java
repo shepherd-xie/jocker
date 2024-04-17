@@ -31,7 +31,6 @@ public class DockerClient implements Docker {
         return dockerExecutor.execute(dockerCommand, DockerInfo.class);
     }
 
-    @Override
     public DockerInfo info(InfoOptions infoOptions) {
         DockerCommand dockerCommand = new DockerCommand();
         dockerCommand.setDockerConfig(dockerConfig);

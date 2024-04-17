@@ -5,6 +5,12 @@ import lombok.Data;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+import java.util.List;
+import java.util.Map;
+
 @Data
 public class DockerContainer {
     private String id;
@@ -17,15 +23,16 @@ public class DockerContainer {
     private String state;
     private String status;
     private List<Port> ports;
-    private Labels labels;
+    private Map<String, String> labels;
     @JsonProperty("SizeRw")
-    private int sizeRw;
+    private long sizeRw;
     @JsonProperty("SizeRootFs")
-    private int sizeRootFs;
+    private long sizeRootFs;
     @JsonProperty("HostConfig")
     private HostConfig hostConfig;
     @JsonProperty("NetworkSettings")
     private NetworkSettings networkSettings;
     private List<Mount> mounts;
 }
+
 
