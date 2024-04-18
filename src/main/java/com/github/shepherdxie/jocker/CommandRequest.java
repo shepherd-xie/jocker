@@ -10,7 +10,7 @@ import java.net.URL;
  * @since 2024/1/30
  */
 @Data
-public class DockerCommand {
+public class CommandRequest {
     private DockerConfig dockerConfig;
     private String command;
     private Object options;

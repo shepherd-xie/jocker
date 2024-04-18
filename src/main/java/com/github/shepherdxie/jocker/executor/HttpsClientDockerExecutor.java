@@ -1,7 +1,7 @@
 package com.github.shepherdxie.jocker.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.shepherdxie.jocker.DockerCommand;
+import com.github.shepherdxie.jocker.ResponseReader;
 import com.github.shepherdxie.utils.FileUtil;
 import com.github.shepherdxie.utils.HttpsUtils;
 import okhttp3.OkHttpClient;
@@ -34,7 +34,7 @@ public class HttpsClientDockerExecutor implements DockerExecutor {
     }
 
     @Override
-    public String execute(DockerCommand dockerCommand) {
+    public ExecutorResponse execute(ExecutorRequest request) {
         return null;
     }
 

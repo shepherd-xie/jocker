@@ -1,23 +1,28 @@
 package com.github.shepherdxie.jocker.executor;
 
-import com.github.shepherdxie.jocker.DockerCommand;
+import com.github.shepherdxie.jocker.Environment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
+import java.net.URL;
 
 /**
  * @author Shepherd Xie
  * @since 2024/1/30
  */
-public class HttpClientDockerExecutor implements DockerExecutor {
+public class HttpClientDockerExecutor extends AbstractDockerExecutor {
+    public HttpClientDockerExecutor(Environment environment) {
+        super(environment);
+    }
+
     @Override
-    public String execute(DockerCommand dockerCommand) {
+    public ExecutorResponse execute(ExecutorRequest request) {
         HttpURLConnection connection = null;
         try {
-            connection = (HttpURLConnection) dockerCommand.getHttpUrl().openConnection();
+            connection = (HttpURLConnection) new URL(environment.getProtocol() + environment.getHost()).openConnection();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -38,6 +43,6 @@ public class HttpClientDockerExecutor implements DockerExecutor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return response.toString();
+        return null;
     }
 }
