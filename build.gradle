@@ -13,7 +13,7 @@ ext {
     junitVersion = '5.9.1'
     lombokVersion = '1.18.30'
     jacksonVersion = '2.16.1'
-    slf4jVersion = '2.0.10'
+    slf4jVersion = '1.7.25'
     commonsLangVersion = '3.12.0'
     guavaVersion = '33.0.0-jre'
     okhttpVersion = '4.12.0'
@@ -30,6 +30,7 @@ dependencies {
     // Logging
     implementation 'org.apache.logging.log4j:log4j-api:2.23.1'
     implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.23.1'
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
 
     // Utilities

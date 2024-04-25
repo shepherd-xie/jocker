@@ -31,7 +31,7 @@ public class Main {
                 .build();
 
         DockerContext context = Docker.context(environment);
-        for (ContainerSummary container : context.container().ls()) {
+        for (ContainerSummary container : context.container().json()) {
             System.out.println(container);
         }
     }
