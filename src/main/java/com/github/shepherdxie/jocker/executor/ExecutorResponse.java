@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class ExecutorResponse {
+    private Integer exitCode;
     private ExecutorRequest request;
     private String raw;
 }

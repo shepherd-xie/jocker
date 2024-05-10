@@ -4,21 +4,16 @@ import com.github.shepherdxie.jocker.Docker;
 import com.github.shepherdxie.jocker.DockerConfig;
 import com.github.shepherdxie.jocker.DockerContext;
 import com.github.shepherdxie.jocker.Environment;
+import com.github.shepherdxie.jocker.entity.ContainerConfig;
 import com.github.shepherdxie.jocker.entity.ContainerSummary;
 import com.github.shepherdxie.jocker.executor.SSHSessionFactory;
-import com.github.shepherdxie.utils.FileUtil;
+import com.github.shepherdxie.jocker.params.ContainerListQueryParams;
+import com.github.shepherdxie.jocker.params.ContainerParams;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        // 客户端证书和私钥文件路径
-        String clientCertPath = FileUtil.getSecurity("/ca/cert.pem");
-        String clientKeyPath = FileUtil.getSecurity("/ca/key.pem");
-
-        // CA 证书文件路径
-        String caCertPath = FileUtil.getSecurity("/ca/ca.pem");
-
         Environment environment = Environment.builder()
                 .protocol(Environment.Protocol.UNIX_SOCKET_VIA_SSH)
                 .host("/var/run/docker.sock")
@@ -31,7 +26,15 @@ public class Main {
                 .build();
 
         DockerContext context = Docker.context(environment);
-        for (ContainerSummary container : context.container().json()) {
+        ContainerListQueryParams containerListQueryParams = new ContainerListQueryParams();
+        containerListQueryParams.setAll(true);
+        ContainerConfig containerConfig = new ContainerConfig();
+        containerConfig.setImage("nginx");
+        ContainerParams containerParams = new ContainerParams();
+        containerParams.setName("test_nginx");
+        ContainerSummary containerSummary = context.container().create(containerParams, containerConfig);
+        System.out.println(containerSummary);
+        for (ContainerSummary container : context.container().list(containerListQueryParams)) {
             System.out.println(container);
         }
     }

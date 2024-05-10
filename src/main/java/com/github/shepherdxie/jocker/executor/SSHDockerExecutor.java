@@ -1,5 +1,6 @@
 package com.github.shepherdxie.jocker.executor;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.shepherdxie.jocker.Environment;
@@ -28,21 +29,32 @@ public class SSHDockerExecutor extends AbstractDockerExecutor {
     }
 
     private String getCommand(ExecutorRequest request) {
-        String header = "-H \"Content-Type: application/json\"";
-        String body = "-d ";
-        String method = "-X " + request.method();
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        StringBuilder sb = new StringBuilder();
+        if (request.getMethod() != ExecutorRequest.Method.GET) {
+            sb.append(" -H \"Content-Type: application/json\" ");
+            String method = " -X " + request.getMethod();
+            sb.append(method);
+            try {
+                String body = " -d '" + objectMapper.writeValueAsString(request.getBody()) + "'";
+                sb.append(body);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
         String jsonString = null;
         try {
-            jsonString = objectMapper.writeValueAsString(request.params());
+            jsonString = objectMapper.writeValueAsString(request.getParams());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         String params = jsonString.replaceAll("[\"{}]", "").replaceAll(",", "&").replaceAll(":", "=");
 
-        String command = "curl --unix-socket {0} \"http://localhost/v1.44{1}{2}\"";
+        String command = "curl --unix-socket {0} \"http://localhost/v1.44{1}{2}\" {3}";
 
-        String format = MessageFormat.format(command, environment.getHost(), request.path(), params.isBlank() ? "" : "?" + params);
+        String format = MessageFormat.format(command, environment.getHost(), request.getPath(), params.isBlank() ? "" : "?" + params, sb.toString());
+        request.setCommand(format);
         log.info(format);
         return format;
     }
@@ -69,6 +81,8 @@ public class SSHDockerExecutor extends AbstractDockerExecutor {
 
         try (InputStream in = channel.getInputStream()) {
             channel.connect();
+
+            response.setExitCode(channel.getExitStatus());
 
             // 读取命令执行的输出
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
