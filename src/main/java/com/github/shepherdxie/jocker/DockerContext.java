@@ -10,10 +10,12 @@ import com.github.shepherdxie.jocker.executor.DockerExecutorFactory;
 public class DockerContext {
     private final DockerExecutor dockerExecutor;
     private final DockerContainerContext container;
+    private final DockerImageContext image;
 
     public DockerContext(Environment environment) {
         dockerExecutor = DockerExecutorFactory.executor(environment);
         container = new DockerContainerContext(dockerExecutor);
+        image = new DockerImageContext(dockerExecutor);
     }
 
 
@@ -21,8 +23,8 @@ public class DockerContext {
         return container;
     }
 
-    public void image() {
-
+    public DockerImageContext image() {
+        return image;
     }
 
     public void network() {
